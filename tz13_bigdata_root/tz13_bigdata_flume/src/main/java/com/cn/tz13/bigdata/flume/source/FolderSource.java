@@ -1,4 +1,4 @@
-package com.cn.tz13.bigdata.common.source;
+package com.cn.tz13.bigdata.flume.source;
 
 import com.cn.tz13.bigdata.common.utils.DateUtils;
 import org.apache.commons.io.FileUtils;
@@ -98,15 +98,15 @@ public class FolderSource extends AbstractSource implements Configurable, Pollab
 
                             lines.forEach(line -> {
                                 // Receive new data
-                                Event e = new SimpleEvent();
-                                e.setBody(line.getBytes());
+                                Event se = new SimpleEvent();
+                                se.setBody(line.getBytes());
                                 //附加元数据到消息头
                                 Map headers = new HashMap<String, String>();
                                 headers.put("fileName", fileName);
                                 headers.put("absolute_fileName", fileNameNew);
-                                e.setHeaders(headers);
+                                se.setHeaders(headers);
 
-                                eventList.add(e);
+                                eventList.add(se);
                             });
                             LOG.info("开始移动文件。");
                             //文件处理完成后，将解析完成的文件移动到成功的目录下。
@@ -119,7 +119,7 @@ public class FolderSource extends AbstractSource implements Configurable, Pollab
                     }
                 }
                 getChannelProcessor().processEventBatch(eventList);
-                LOG.info("批量推送数据到channel" + eventList.size() + "成功。");
+                LOG.info("批量推送数据到channel：" + eventList.size() + "成功。");
                 eventList.clear();
             }
             status = Status.READY;
@@ -127,7 +127,7 @@ public class FolderSource extends AbstractSource implements Configurable, Pollab
             // Log exception, handle individual exceptions as needed
             status = Status.BACKOFF;
             // re-throw all Errors
-            LOG.error(null,e);
+            LOG.error(e.getMessage());
         } finally {
         }
         return status;

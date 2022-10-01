@@ -1,4 +1,4 @@
-package com.cn.tz13.bigdata.common.source;
+package com.cn.tz13.bigdata.flume.source;
 
 import org.apache.flume.Context;
 import org.apache.flume.Event;

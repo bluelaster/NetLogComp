@@ -18,6 +18,7 @@ public class KafkaConfig {
     //定义kafka配置路径
     private static final String DEFAULT_KAFKA_CONFIG_PATH = "kafka/kafka-server-config.properties";
 
+
     //kafka的配置文件
     private Properties properties;
     private ProducerConfig producerConfig;
@@ -48,5 +49,9 @@ public class KafkaConfig {
 
     public ProducerConfig getProducerConfig(){
         return producerConfig;
+    }
+
+    public static void main(String[] args) {
+        ProducerConfig producerConfig = KafkaConfig.getInstance().getProducerConfig();
     }
 }

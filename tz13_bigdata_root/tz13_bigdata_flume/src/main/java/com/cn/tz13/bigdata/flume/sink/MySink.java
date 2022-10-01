@@ -18,7 +18,7 @@ public class MySink extends AbstractSink implements Configurable {
 
     @Override
     public void configure(Context context) {
-        String topic = context.getString("topic");
+        topic = context.getString("topic");
     }
 
     @Override
@@ -28,7 +28,7 @@ public class MySink extends AbstractSink implements Configurable {
     }
 
     @Override
-    public void stop () {
+    public void stop() {
         // Disconnect from the external respository and do any
         // additional cleanup (e.g. releasing resources or nulling-out
         // field values) ..
@@ -47,13 +47,13 @@ public class MySink extends AbstractSink implements Configurable {
             // This try clause includes whatever Channel operations you want to do
             Event event = ch.take();
 
-            if(null == event){
+            if (null == event) {
                 txn.rollback();
                 return Status.BACKOFF;
             }
             String lines = new String(event.getBody());
             //TODO: 数据已经拿到，直接往kafka里面写入就可以了，缺一个写kafka的API
-            StringProducer.proceducer(topic,lines);
+            StringProducer.proceducer(topic, lines);
             LOG.info(lines.toString());
 
             txn.commit();
@@ -64,9 +64,9 @@ public class MySink extends AbstractSink implements Configurable {
             status = Status.BACKOFF;
             // re-throw all Errors
             if (t instanceof Error) {
-                throw (Error)t;
+                throw (Error) t;
             }
-        }finally {
+        } finally {
             txn.close();
         }
         return status;

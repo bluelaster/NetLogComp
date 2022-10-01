@@ -37,11 +37,9 @@ public class ConfigUtils {
 
         try {
             LOG.info("开始读取配置文件" + path);
-            System.out.println("开始读取配置文件" + path);
             InputStream insss = this.getClass().getClassLoader().getResourceAsStream(path);
             properties.load(insss);
             LOG.info("开始读取配置文件：" + path + "完成。");
-            System.out.println("开始读取配置文件" + path + "完成。");
         } catch (Exception e) {
             LOG.error("加载配置文件" + path +"失败");
             LOG.error(null,e);
